@@ -7,6 +7,7 @@ public class Game : MonoBehaviour
 {
     public Sprite[] cardFaces;
     public GameObject cardPrefab;
+    public GameObject deckButton;
     public GameObject[] topPos;
     public GameObject[] bottomPos;
 
@@ -14,7 +15,7 @@ public class Game : MonoBehaviour
     public static string[] values = new string[] { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
     public List<string>[] tops;
     public List<string>[] bottoms;
-    public List<string> TripsOnDisplay = new List<string>();
+    public List<string> tripsOnDisplay = new List<string>();
     public List<List<string>> deckTrips = new List<List<string>>();
 
     private List<string> tableau0 = new List<string>();
@@ -27,6 +28,8 @@ public class Game : MonoBehaviour
 
 
     public List<string> deck;
+    public List<string> discardPile = new List<string>();
+    private int deckLocation;
     private int trips;
     private int tripsRemainder;
 
@@ -38,6 +41,11 @@ public class Game : MonoBehaviour
 
     public void PlayCards()
     {
+        foreach (List<string> list in bottoms)
+        {
+            list.Clear();
+        }
+
         deck = GenerateDeck();
         Shuffle(deck);
 
@@ -47,6 +55,7 @@ public class Game : MonoBehaviour
         //}
         Sort();
         StartCoroutine(Deal());
+        SortDeck();
     }
 
     public static List<string> GenerateDeck()
@@ -87,6 +96,7 @@ public class Game : MonoBehaviour
                 yield return new WaitForSeconds(0.05f);
                 GameObject newCard = Instantiate(cardPrefab, new Vector3(bottomPos[i].transform.position.x, bottomPos[i].transform.position.y - yOffset, bottomPos[i].transform.position.z - zOffset), Quaternion.identity, bottomPos[i].transform);
                 newCard.name = card;
+                newCard.GetComponent<Selectable>().row = 1;
                 if (card == bottoms[i][bottoms[i].Count -1])
                 { 
                     newCard.GetComponent<Selectable>().faceUp = true;
@@ -94,8 +104,18 @@ public class Game : MonoBehaviour
 
                 yOffset = yOffset + 0.3f;
                 zOffset = zOffset + 0.03f;
+                discardPile.Add(card);
             }
         }
+
+        foreach(string card in discardPile)
+        {
+            if (deck.Contains(card))
+            {
+                deck.Remove(card);
+            }
+        }
+        discardPile.Clear();
     }
 
     private void Sort()
@@ -127,5 +147,67 @@ public class Game : MonoBehaviour
             deckTrips.Add(myTrips);
             modifier = modifier + 3;
         }
+        if (tripsRemainder != 0)
+        {
+            List<string> myRemainders = new List<string>();
+            modifier = 0;
+            for (int k = 0; k < tripsRemainder; k++)
+            {
+                myRemainders.Add(deck[deck.Count - tripsRemainder + modifier]);
+                modifier++;
+            }
+            deckTrips.Add(myRemainders);
+            trips++;
+        }
+        deckLocation = 0;
+    }
+
+    public void DealFromDeck()
+    {
+        //Add remaining cards to discard pile
+        foreach (Transform child in deckButton.transform)
+        {
+            if (child.CompareTag("Card"))
+            {
+                deck.Remove(child.name);
+                discardPile.Add(child.name);
+                Destroy(child.gameObject);
+            }
+        }
+
+        if (deckLocation < trips)
+        {
+            //Draw 3 new cards
+            tripsOnDisplay.Clear();
+            float xOffset = 2.5f;
+            float zOffset = -0.02f;
+
+            foreach (string card in deckTrips[deckLocation])
+            {
+                GameObject newTopCard = Instantiate(cardPrefab, new Vector3(deckButton.transform.position.x + xOffset, deckButton.transform.position.y, deckButton.transform.position.z + zOffset), Quaternion.identity, deckButton.transform);
+                xOffset = xOffset + 0.5f;
+                zOffset = zOffset - 0.2f;
+                newTopCard.name = card;
+                tripsOnDisplay.Add(card);
+                newTopCard.GetComponent<Selectable>().faceUp = true;
+                newTopCard.GetComponent<Selectable>().inDeckPile = true;
+            }
+            deckLocation++;
+        }
+        else
+        {
+            RestackDeck();
+        }
+    }
+
+    private void RestackDeck()
+    {
+        deck.Clear();
+        foreach (string card in discardPile)
+        {
+            deck.Add(card);
+        }
+        discardPile.Clear();
+        SortDeck();
     }
 }

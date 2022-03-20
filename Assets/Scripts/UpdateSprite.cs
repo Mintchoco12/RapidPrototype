@@ -10,11 +10,13 @@ public class UpdateSprite : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Selectable selectable;
     private Game game;
+    private UserInput userInput;
 
     private void Start()
     {
         List<string> deck = Game.GenerateDeck();
         game = FindObjectOfType<Game>();
+        userInput = FindObjectOfType<UserInput>();
 
         int i = 0;
         foreach (string card in deck)
@@ -39,6 +41,18 @@ public class UpdateSprite : MonoBehaviour
         else
         {
             spriteRenderer.sprite = cardBack;
+        }
+
+        if (userInput.inHand)
+        {
+            if (name == userInput.inHand.name)
+            {
+                spriteRenderer.color = Color.yellow;
+            }
+            else
+            {
+                spriteRenderer.color = Color.white;
+            }
         }
     }
 }
