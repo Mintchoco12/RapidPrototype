@@ -366,8 +366,8 @@ Transform:
   m_Children:
   - {fileID: 1089537667}
   - {fileID: 2117787289}
-  m_Father: {fileID: 1923541297}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &580647409
 GameObject:
@@ -908,7 +908,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1089537666
 GameObject:
@@ -1731,7 +1731,7 @@ Transform:
   - {fileID: 2024576853}
   - {fileID: 1277568286}
   m_Father: {fileID: 1923541297}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1629515972
 GameObject:
@@ -1927,10 +1927,9 @@ Transform:
   m_Children:
   - {fileID: 1981601270}
   - {fileID: 1662621347}
-  - {fileID: 572931206}
   - {fileID: 1529139202}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1981601269
 GameObject:
@@ -2124,7 +2123,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2088096931
 MonoBehaviour:
@@ -2138,7 +2137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d090f357bebd0c41bcdbd4432a7e4ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inHand: {fileID: 0}
+  slot1: {fileID: 0}
 --- !u!114 &2088096932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2206,11 +2205,6 @@ MonoBehaviour:
   - {fileID: -8400460703064076358, guid: c010c4658432b444db56215f98a0cc77, type: 3}
   cardPrefab: {fileID: 4436764967400226546, guid: 42a2111e218ff764698256895485c6d2, type: 3}
   deckButton: {fileID: 2117787288}
-  topPos:
-  - {fileID: 1518487125}
-  - {fileID: 1200123587}
-  - {fileID: 1629515972}
-  - {fileID: 1467401109}
   bottomPos:
   - {fileID: 687996332}
   - {fileID: 488453995}
@@ -2219,6 +2213,11 @@ MonoBehaviour:
   - {fileID: 580647409}
   - {fileID: 2024576852}
   - {fileID: 1277568285}
+  topPos:
+  - {fileID: 1518487125}
+  - {fileID: 1200123587}
+  - {fileID: 1629515972}
+  - {fileID: 1467401109}
   tripsOnDisplay: []
   deck: []
   discardPile: []
@@ -2378,7 +2377,7 @@ PrefabInstance:
       objectReference: {fileID: -1535244524692844915, guid: c010c4658432b444db56215f98a0cc77, type: 3}
     - target: {fileID: 4436764967400226550, guid: 42a2111e218ff764698256895485c6d2, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4436764967400226550, guid: 42a2111e218ff764698256895485c6d2, type: 3}
       propertyPath: m_LocalScale.x

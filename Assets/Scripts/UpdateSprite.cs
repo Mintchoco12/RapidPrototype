@@ -6,16 +6,18 @@ public class UpdateSprite : MonoBehaviour
 {
     public Sprite cardFace;
     public Sprite cardBack;
-
     private SpriteRenderer spriteRenderer;
     private Selectable selectable;
-    private Game game;
+    private Solitaire solitaire;
     private UserInput userInput;
 
-    private void Start()
+
+
+    // Start is called before the first frame update
+    void Start()
     {
-        List<string> deck = Game.GenerateDeck();
-        game = FindObjectOfType<Game>();
+        List<string> deck = Solitaire.GenerateDeck();
+        solitaire = FindObjectOfType<Solitaire>();
         userInput = FindObjectOfType<UserInput>();
 
         int i = 0;
@@ -23,7 +25,7 @@ public class UpdateSprite : MonoBehaviour
         {
             if (this.name == card)
             {
-                cardFace = game.cardFaces[i];
+                cardFace = solitaire.cardFaces[i];
                 break;
             }
             i++;
@@ -32,7 +34,8 @@ public class UpdateSprite : MonoBehaviour
         selectable = GetComponent<Selectable>();
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
         if (selectable.faceUp == true)
         {
@@ -43,9 +46,10 @@ public class UpdateSprite : MonoBehaviour
             spriteRenderer.sprite = cardBack;
         }
 
-        if (userInput.inHand)
+        if (userInput.slot1)
         {
-            if (name == userInput.inHand.name)
+
+            if (name == userInput.slot1.name)
             {
                 spriteRenderer.color = Color.yellow;
             }
