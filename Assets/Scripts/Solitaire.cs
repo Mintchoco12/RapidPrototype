@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -13,6 +13,7 @@ public class Solitaire : MonoBehaviour
 
     public static string[] suits = new string[] { "C", "D", "H", "S" };
     public static string[] values = new string[] { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
+
     public List<string>[] bottoms;
     public List<string>[] tops;
     public List<string> tripsOnDisplay = new List<string>();
@@ -26,26 +27,17 @@ public class Solitaire : MonoBehaviour
     private List<string> bottom5 = new List<string>();
     private List<string> bottom6 = new List<string>();
 
-
     public List<string> deck;
     public List<string> discardPile = new List<string>();
+
     private int deckLocation;
     private int trips;
     private int tripsRemainder;
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         bottoms = new List<string>[] { bottom0, bottom1, bottom2, bottom3, bottom4, bottom5, bottom6 };
         PlayCards();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void PlayCards()
@@ -58,17 +50,10 @@ public class Solitaire : MonoBehaviour
         deck = GenerateDeck();
         Shuffle(deck);
 
-        //test the cards in the deck:
-        foreach (string card in deck)
-        {
-            print(card);
-        }
         SolitaireSort();
-        StartCoroutine(SolitaireDeal());
+        StartCoroutine(DealCards());
         SortDeckIntoTrips();
-
     }
-
 
     public static List<string> GenerateDeck()
     {
@@ -83,7 +68,7 @@ public class Solitaire : MonoBehaviour
         return newDeck;
     }
 
-    void Shuffle<T>(List<T> list)
+    private void Shuffle<T>(List<T> list)
     {
         System.Random random = new System.Random();
         int n = list.Count;
@@ -97,11 +82,10 @@ public class Solitaire : MonoBehaviour
         }
     }
 
-    IEnumerator SolitaireDeal()
+    IEnumerator DealCards()
     {
         for (int i = 0; i < 7; i++)
         {
-
             float yOffset = 0;
             float zOffset = 0.03f;
             foreach (string card in bottoms[i])
@@ -114,7 +98,6 @@ public class Solitaire : MonoBehaviour
                 {
                     newCard.GetComponent<Selectable>().faceUp = true;
                 }
-
 
                 yOffset = yOffset + 0.3f;
                 zOffset = zOffset + 0.03f;
@@ -130,10 +113,9 @@ public class Solitaire : MonoBehaviour
             }
         }
         discardPile.Clear();
-
     }
 
-    void SolitaireSort()
+    private void SolitaireSort()
     {
         for (int i = 0; i < 7; i++)
         {
@@ -142,9 +124,7 @@ public class Solitaire : MonoBehaviour
                 bottoms[j].Add(deck.Last<string>());
                 deck.RemoveAt(deck.Count - 1);
             }
-
         }
-
     }
 
     public void SortDeckIntoTrips()
@@ -177,13 +157,11 @@ public class Solitaire : MonoBehaviour
             trips++;
         }
         deckLocation = 0;
-
     }
 
     public void DealFromDeck()
     {
-        // add remaining cards to discard pile
-
+        //Add remaining cards to discard pile
         foreach (Transform child in deckButton.transform)
         {
             if (child.CompareTag("Card"))
@@ -193,7 +171,6 @@ public class Solitaire : MonoBehaviour
                 Destroy(child.gameObject);
             }
         }
-
 
         if (deckLocation < trips)
         {
@@ -213,7 +190,6 @@ public class Solitaire : MonoBehaviour
                 newTopCard.GetComponent<Selectable>().inDeckPile = true;
             }
             deckLocation++;
-
         }
         else
         {
@@ -222,7 +198,7 @@ public class Solitaire : MonoBehaviour
         }
     }
 
-    void RestackTopDeck()
+    private void RestackTopDeck()
     {
         deck.Clear();
         foreach (string card in discardPile)

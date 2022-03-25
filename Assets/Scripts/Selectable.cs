@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Selectable : MonoBehaviour
 {
-    public bool top = false;
     public string suit;
     public int value;
     public int row;
+
+    public bool top = false;
     public bool faceUp = false;
     public bool inDeckPile = false;
 
     private string valueString;
+    private string[] cards = new string[] { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         if (CompareTag("Card"))
         {
@@ -26,65 +27,13 @@ public class Selectable : MonoBehaviour
                 valueString = valueString + c.ToString();
             }
 
-            if (valueString == "A")
+            for (int i = 0; i < cards.Length; i++)
             {
-                value = 1;
+                if (valueString == cards[i])
+                {
+                    value += i + 1;
+                }
             }
-            if (valueString == "2")
-            {
-                value = 2;
-            }
-            if (valueString == "3")
-            {
-                value = 3;
-            }
-            if (valueString == "4")
-            {
-                value = 4;
-            }
-            if (valueString == "5")
-            {
-                value = 5;
-            }
-            if (valueString == "6")
-            {
-                value = 6;
-            }
-            if (valueString == "7")
-            {
-                value = 7;
-            }
-            if (valueString == "8")
-            {
-                value = 8;
-            }
-            if (valueString == "9")
-            {
-                value = 9;
-            }
-            if (valueString == "10")
-            {
-                value = 10;
-            }
-            if (valueString == "J")
-            {
-                value = 11;
-            }
-            if (valueString == "Q")
-            {
-                value = 12;
-            }
-            if (valueString == "K")
-            {
-                value = 13;
-            }
-
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
